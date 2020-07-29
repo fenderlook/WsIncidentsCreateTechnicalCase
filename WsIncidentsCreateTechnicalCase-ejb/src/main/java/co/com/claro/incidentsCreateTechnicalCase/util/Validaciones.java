@@ -6,12 +6,73 @@
 package co.com.claro.incidentsCreateTechnicalCase.util;
 
 import co.com.claro.incidentsCreateTechnicalCase.entity.PqrCaseCv;
+import co.com.claro.incidentsCreateTechnicalCase.entity.requestCrear;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
  * @author ECM0210H
  */
 public class Validaciones {
+
+    public requestCrear validarFechas(requestCrear requestT) throws ParseException {
+
+        if (requestT.getFechas() != null) {
+            if (campoLleno(requestT.getFechas().getDateCase())) {
+                requestT.getDatos().setDateCase(new SimpleDateFormat("dd/MM/yy").parse(requestT.getFechas().getDateCase()));
+            } else {
+                requestT.getDatos().setDateCase(null);
+            }
+            if (campoLleno(requestT.getFechas().getCaseDateEnd())) {
+                requestT.getDatos().setCaseDateEnd(new SimpleDateFormat("dd/MM/yy").parse(requestT.getFechas().getCaseDateEnd()));
+            } else {
+                requestT.getDatos().setCaseDateEnd(null);
+            }
+            if (campoLleno(requestT.getFechas().getCaseHour())) {
+                requestT.getDatos().setCaseHour(new SimpleDateFormat("dd/MM/yy HH:mm:ss").parse(requestT.getFechas().getCaseHour()));
+            } else {
+                requestT.getDatos().setCaseHour(null);
+            }
+            if (campoLleno(requestT.getFechas().getCaseHourEnd())) {
+                requestT.getDatos().setCaseHourEnd(new SimpleDateFormat("dd/MM/yy HH:mm:ss").parse(requestT.getFechas().getCaseHourEnd()));
+            } else {
+                requestT.getDatos().setCaseHourEnd(null);
+            }
+            if (campoLleno(requestT.getFechas().getFailureDate())) {
+                requestT.getDatos().setFailureDate(new SimpleDateFormat("dd/MM/yy").parse(requestT.getFechas().getFailureDate()));
+            } else {
+                requestT.getDatos().setFailureDate(null);
+            }
+            if (campoLleno(requestT.getFechas().getFailureDateSolution())) {
+                requestT.getDatos().setFailureDateSolution(new SimpleDateFormat("dd/MM/yy").parse(requestT.getFechas().getFailureDateSolution()));
+            } else {
+                requestT.getDatos().setFailureDateSolution(null);
+            }
+            if (campoLleno(requestT.getFechas().getDateMod())) {
+                requestT.getDatos().setDateMod(new SimpleDateFormat("dd/MM/yy").parse(requestT.getFechas().getDateMod()));
+            } else {
+                requestT.getDatos().setDateMod(null);
+            }
+            if (campoLleno(requestT.getFechas().getDateCreate())) {
+                requestT.getDatos().setDateCreate(new SimpleDateFormat("dd/MM/yy").parse(requestT.getFechas().getDateCreate()));
+            } else {
+                requestT.getDatos().setDateCreate(null);
+            }
+
+        } else {
+            requestT.getDatos().setDateCase(null);
+            requestT.getDatos().setCaseDateEnd(null);
+            requestT.getDatos().setCaseHour(null);
+            requestT.getDatos().setCaseHourEnd(null);
+            requestT.getDatos().setFailureDate(null);
+            requestT.getDatos().setFailureDateSolution(null);
+            requestT.getDatos().setDateMod(null);
+            requestT.getDatos().setDateCreate(null);
+        }
+
+        return requestT;
+    }
 
     public PqrCaseCv validarNulos(PqrCaseCv request, PqrCaseCv objetoActualizar) {
 //        if (campoLleno(request.getId() + "")) {
@@ -255,13 +316,77 @@ public class Validaciones {
 
         return objetoActualizar;
     }
-    
+
     public boolean campoLleno(String campo) {
         if (campo == null || campo.equals("") || campo.equals("null")) {
             return false;
         } else {
             return true;
         }
+    }
+
+    public String validarObligatorios(requestCrear requestT) {
+
+        String respuesta = "";
+
+        if (!campoLleno(requestT.getDatos().getAccountNumber())) {
+            respuesta += ponerComa(respuesta);
+            respuesta += " número de cuenta";
+        }
+
+        if (!campoLleno(requestT.getDatos().getIdCategory())) {
+            respuesta += ponerComa(respuesta);
+            respuesta += " ID categoría";
+        }
+
+        if (!campoLleno(requestT.getDatos().getIdSubcategory())) {
+            respuesta += ponerComa(respuesta);
+            respuesta += " ID subcategoría";
+        }
+
+        if (!campoLleno(requestT.getDatos().getIdCustomerVoice())) {
+            respuesta += ponerComa(respuesta);
+            respuesta += " ID voz del cliente";
+        }
+
+        if (!campoLleno(requestT.getDatos().getIdCloseCode())) {
+            respuesta += ponerComa(respuesta);
+            respuesta += " ID código de cierre";
+        }
+
+        if (!campoLleno(requestT.getDatos().getApplicantName())) {
+            respuesta += ponerComa(respuesta);
+            respuesta += " nombres";
+        }
+
+        if (!campoLleno(requestT.getDatos().getApplicantSurname())) {
+            respuesta += ponerComa(respuesta);
+            respuesta += " apellidos";
+        }
+
+        if (!campoLleno(requestT.getDatos().getPhoneNumber())) {
+            respuesta += ponerComa(respuesta);
+            respuesta += " número de teléfono";
+        }
+
+        if (!campoLleno(requestT.getDatos().getUserCreate())) {
+            respuesta += ponerComa(respuesta);
+            respuesta += " usuario de creación";
+        }
+
+        if (!campoLleno(requestT.getDatos().getDateCreate() + "")) {
+            respuesta += ponerComa(respuesta);
+            respuesta += " fecha de creación";
+        }
+
+        return respuesta;
+    }
+
+    public String ponerComa(String respuesta) {
+        if (!respuesta.equals("")) {
+            respuesta = ",";
+        }
+        return respuesta;
     }
 
 }
